@@ -300,6 +300,4 @@ Belo Horizonte: CEFET-MG, 2026.
 
 ## Licença
 
-Defina a licença do projeto antes da publicação pública.
-
-Para um projeto acadêmico aberto, uma opção comum é a **MIT License**. Para restringir alterações ou redistribuição, escolha uma licença compatível com os objetivos institucionais e com a política do projeto.
+**MIT License**
