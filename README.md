@@ -4,6 +4,7 @@
 [![HTML5](https://img.shields.io/badge/HTML5-single--file-E34F26?logo=html5&logoColor=white)](#tecnologias)
 [![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?logo=javascript&logoColor=000)](#tecnologias)
 [![Execução](https://img.shields.io/badge/execução-offline-4da3ff)](#como-executar)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **CriptoEscape** é um laboratório educacional digital em formato de *escape room* para o ensino de aritmética modular, teoria de grupos e segurança em curvas elípticas.
 
@@ -24,7 +25,7 @@ $$
 O grupo de pontos da curva possui ordem:
 
 $$
-\#E(\mathbb{F}_{97}) = 105 = 3 \cdot 5 \cdot 7
+\left|E(\mathbb{F}_{97})\right| = 105 = 3 \cdot 5 \cdot 7
 $$
 
 A escolha de uma ordem totalmente suave permite demonstrar, de forma controlada e executável à mão, a recuperação da chave privada a partir de subgrupos de pequenas ordens.
@@ -300,4 +301,4 @@ Belo Horizonte: CEFET-MG, 2026.
 
 ## Licença
 
-**MIT License**
+Este projeto é distribuído sob a **MIT License**. Consulte o arquivo [`LICENSE`](LICENSE) para conhecer os termos de uso, cópia, modificação e distribuição.
