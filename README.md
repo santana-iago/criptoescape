@@ -188,17 +188,9 @@ O protótipo não exige a pasta `docs` para funcionar. Ela pode ser usada apenas
 
 ---
 
-## Publicação com GitHub Pages
+## GitHub Pages
 
-Como a aplicação é estática e autossuficiente, ela pode ser publicada diretamente com GitHub Pages.
-
-1. Acesse **Settings** no repositório.
-2. Abra a seção **Pages**.
-3. Em **Build and deployment**, selecione **Deploy from a branch**.
-4. Escolha a branch `main` e a pasta `/ (root)`.
-5. Salve a configuração.
-
-Após a publicação, a aplicação ficará disponível em um endereço semelhante a:
+Como a aplicação é estática e autossuficiente, ela pode ser acessada diretamente com GitHub Pages.
 
 ```text
 https://santana-iago.github.io/criptoescape/
