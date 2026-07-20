@@ -1,296 +1,166 @@
 # CriptoEscape
 
-[![Status](https://img.shields.io/badge/status-protótipo-2ea44f)](#status-do-projeto)
-[![HTML5](https://img.shields.io/badge/HTML5-single--file-E34F26?logo=html5&logoColor=white)](#tecnologias)
-[![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?logo=javascript&logoColor=000)](#tecnologias)
-[![Execução](https://img.shields.io/badge/execução-offline-4da3ff)](#como-executar)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+**CriptoEscape** é um laboratório educacional estático, em formato de escape room, para o ensino de aritmética modular, teoria de grupos e segurança em curvas elípticas. A aplicação funciona em HTML, CSS e JavaScript puro, sem build, backend ou dependências externas.
 
-**CriptoEscape** é um laboratório educacional digital em formato de *escape room* para o ensino de aritmética modular, teoria de grupos e segurança em curvas elípticas.
-
-A atividade conduz o participante por uma investigação técnica sobre uma implementação vulnerável do protocolo ECDH. Ao longo das etapas, o usuário valida pontos, determina ordens de elementos, obtém congruências, aplica o Teorema Chinês do Resto e compara uma implementação vulnerável com uma versão segura.
-
----
-
-## Visão geral
-
-O projeto transforma conceitos matemáticos abstratos em uma sequência interativa de desafios. Cada etapa funciona como um “cadeado”: o participante precisa realizar os cálculos e validá-los no sistema para avançar.
-
-O cenário utiliza a curva didática:
-
-$$
-y^2 \equiv x^3 + 2x + 7 \pmod{97}
-$$
-
-O grupo de pontos da curva possui ordem:
-
-$$
-\left|E(\mathbb{F}_{97})\right| = 105 = 3 \cdot 5 \cdot 7
-$$
-
-A escolha de uma ordem totalmente suave permite demonstrar, de forma controlada e executável à mão, a recuperação da chave privada a partir de subgrupos de pequenas ordens.
-
----
-
-## Objetivos educacionais
-
-O CriptoEscape foi desenvolvido para apoiar o ensino de:
-
-- congruências e aritmética modular;
-- curvas elípticas sobre corpos finitos;
-- estrutura de grupos e ordem de elementos;
-- Teorema de Lagrange;
-- Teorema Chinês do Resto;
-- multiplicação escalar em curvas elípticas;
-- ataque de subgrupo pequeno;
-- redução de Pohlig–Hellman;
-- validação segura de chaves públicas em ECDH.
-
----
-
-## Fluxo da atividade
-
-### 1. Contexto do incidente
-
-O participante recebe o cenário de um servidor que calcula `d · P` para qualquer ponto enviado, sem validar adequadamente a chave pública recebida.
-
-### 2. Validação dos pontos
-
-São analisados os pontos:
-
-- `P₁ = (61, 18)`
-- `P₂ = (16, 35)`
-- `P₃ = (27, 21)`
-
-O usuário verifica se cada par satisfaz a equação da curva módulo 97.
-
-### 3. Determinação das ordens
-
-Por somas sucessivas, o participante encontra:
-
-- `ord(P₁) = 3`
-- `ord(P₂) = 5`
-- `ord(P₃) = 7`
-
-O servidor vulnerável então revela informações equivalentes a:
-
-$$
-d \equiv 2 \pmod{3}
-$$
-
-$$
-d \equiv 3 \pmod{5}
-$$
-
-$$
-d \equiv 4 \pmod{7}
-$$
-
-### 4. Reconstrução da chave
-
-Aplicando o Teorema Chinês do Resto:
-
-$$
-d \equiv 53 \pmod{105}
-$$
-
-O sistema realiza uma verificação independente usando o ponto-base e a chave pública do servidor.
-
-### 5. Correção defensiva
-
-A mesma entrada é executada em dois modos:
-
-- **modo vulnerável:** realiza a multiplicação sem validação;
-- **modo seguro:** verifica corpo finito, pertencimento à curva, ponto no infinito e ordem esperada antes da operação ECDH.
-
-### 6. Relatório técnico
-
-Ao final, o protótipo apresenta uma síntese do incidente, da causa raiz, da matemática utilizada e da contramedida aplicada.
-
----
-
-## Funcionalidades
-
-- navegação por etapas;
-- validação de respostas;
-- cálculo de pertencimento à curva;
-- soma de pontos;
-- multiplicação escalar;
-- cálculo da ordem de pontos;
-- simulação de um servidor ECDH vulnerável;
-- reconstrução da chave pelo Teorema Chinês do Resto;
-- comparação entre implementação vulnerável e segura;
-- geração de relatório técnico;
-- execução totalmente local;
-- funcionamento sem conexão com a internet.
-
----
-
-## Tecnologias
-
-O projeto foi construído sem frameworks ou dependências externas:
-
-- **HTML5**
-- **CSS3**
-- **JavaScript puro**
-
-Todo o código da aplicação, incluindo interface, estilos e modelo matemático, está concentrado em um único arquivo.
-
----
-
-## Como executar
-
-### Opção 1 — Abrir diretamente
-
-1. Baixe ou clone o repositório.
-2. Abra o arquivo `index.html` em um navegador moderno.
-
-Não é necessário instalar dependências, iniciar servidor ou manter conexão com a internet.
-
-### Opção 2 — Clonar o repositório
-
-```bash
-git clone https://github.com/santana-iago/criptoescape.git
-cd criptoescape
-```
-
-Depois, abra `index.html` no navegador.
-
-### Opção 3 — Servidor local
-
-Também é possível executar com um servidor HTTP simples:
-
-```bash
-python3 -m http.server 8000
-```
-
-Acesse:
-
-```text
-http://localhost:8000
-```
-
----
-
-## Estrutura sugerida do repositório
-
-```text
-criptoescape/
-├── index.html
-├── README.md
-├── LICENSE
-└── docs/
-    ├── artigo.pdf
-    └── imagens/
-```
-
-O protótipo não exige a pasta `docs` para funcionar. Ela pode ser usada apenas para armazenar documentação, artigo e materiais de divulgação.
-
----
-
-## GitHub Pages
-
-Como a aplicação é estática e autossuficiente, ela pode ser acessada diretamente com GitHub Pages.
-
-```text
-https://santana-iago.github.io/criptoescape/
-```
-
----
-
-## Modelo matemático
-
-O protótipo utiliza a curva:
-
-$$
-E: y^2 \equiv x^3 + 2x + 7 \pmod{97}
-$$
-
-Parâmetros principais:
+O cenário padrão foi preservado:
 
 | Parâmetro | Valor |
 |---|---:|
-| Corpo finito | `F₉₇` |
-| Ordem do grupo | `105` |
-| Fatoração | `3 · 5 · 7` |
-| Ponto-base | `(8, 27)` |
-| Chave pública do servidor | `(49, 44)` |
-| Chave privada do cenário | `53` |
+| Curva | y² ≡ x³ + 2x + 7 (mod 97) |
+| Ordem do grupo | 105 = 3 · 5 · 7 |
+| Ponto-base | (8, 27), ordem 105 |
+| Chave privada didática | 53 |
+| Chave pública | (49, 44) |
+| Pontos investigados | (61,18), (16,35), (27,21) |
+| Ordens | 3, 5, 7 |
+| Resíduos | 2 mod 3, 3 mod 5, 4 mod 7 |
+| Solução por TCR | 53 mod 105 |
 
-> Este cenário é deliberadamente reduzido e didático. Ele não deve ser utilizado como referência para seleção de parâmetros criptográficos reais.
+> Os parâmetros são deliberadamente pequenos. Não são adequados para criptografia real.
 
----
+## Funcionalidades
 
-## Segurança demonstrada
+- cenário original de confinamento em subgrupos pequenos, matematicamente idêntico ao protótipo;
+- cenários de ponto inválido, validação incompleta e parâmetros fracos;
+- curvas didáticas predefinidas e curva personalizada com validação;
+- cálculo de ordem do grupo, fatoração, ordem de ponto e chave pública;
+- limites de p ≤ 997 e até 12 pontos personalizados para proteger a interface;
+- modos livre, estudante e instrutor/análise;
+- pré-teste, pós-teste, correção automática e ganho de pontuação;
+- respostas abertas com salvamento automático e contador;
+- tempo ativo, tempo pausado, visitas, tentativas e uso de dicas;
+- retomada da sessão após recarregar;
+- persistência em IndexedDB, com fallback local;
+- painel com filtros, ordenação, pesquisa, métricas e gráficos SVG;
+- importação de múltiplos JSON e exportação em JSON/CSV;
+- português do Brasil, inglês e espanhol;
+- preferências de acessibilidade e navegação móvel;
+- diagnóstico interno em index.html?debug=1.
 
-A vulnerabilidade central é a ausência de validação completa da chave pública antes da operação ECDH.
+## Como executar
 
-Uma implementação segura deve verificar, no mínimo:
+Abra index.html em um navegador moderno. Os scripts usam caminhos relativos e não exigem servidor.
 
-1. se as coordenadas pertencem ao corpo finito esperado;
-2. se o ponto satisfaz a equação da curva;
-3. se o ponto não é o ponto no infinito;
-4. se o ponto pertence ao subgrupo correto ou possui a ordem esperada.
+Servidor local opcional:
 
-O protótipo é exclusivamente educacional e não implementa criptografia destinada a ambientes de produção.
+~~~bash
+python3 -m http.server 8000
+~~~
 
----
+Acesse http://localhost:8000/.
+
+### Testes
+
+~~~bash
+node tests/run-tests.js
+~~~
+
+O teste confirma, entre outros itens:
+
+- #E(F₉₇) = 105;
+- ordens 3, 5 e 7;
+- TCR igual a 53 mod 105;
+- 53 · (8,27) = (49,44).
+
+Também é possível abrir index.html?debug=1 para executar os testes no navegador, incluindo persistência e importação.
+
+## GitHub Pages
+
+1. Envie a raiz do projeto para a branch publicada.
+2. Em **Settings → Pages**, selecione **Deploy from a branch**.
+3. Escolha a branch e a pasta **/ (root)**.
+4. Valide:
+
+~~~text
+https://santana-iago.github.io/criptoescape/
+https://santana-iago.github.io/criptoescape/?debug=1
+~~~
+
+Não há rotas de SPA, caminhos absolutos, build ou segredo de servidor.
+
+## Estrutura
+
+~~~text
+criptoescape/
+├── index.html
+├── assets/
+│   ├── css/styles.css
+│   ├── data/evaluations.js
+│   ├── data/scenarios.js
+│   └── js/
+│       ├── app.js
+│       ├── i18n.js
+│       ├── math.js
+│       ├── storage.js
+│       └── tests.js
+├── tests/run-tests.js
+├── docs/
+│   ├── ACCESSIBILITY.md
+│   ├── ADDING_SCENARIOS.md
+│   ├── ARCHITECTURE.md
+│   ├── DATA_FORMAT.md
+│   └── PILOT_GUIDE.md
+├── README.md
+└── LICENSE
+~~~
+
+## Configuração e extensão
+
+### Adicionar uma curva
+
+Inclua um registro em assets/data/scenarios.js com p, a, b, ordem, fatoração, ponto-base, ordem do ponto-base, chave privada, chave pública e pontos validados. Execute os testes depois. O catálogo é separado da interface.
+
+### Adicionar um cenário
+
+Adicione a descrição e a curva recomendada em assets/data/scenarios.js, traduza suas chaves em assets/js/i18n.js e implemente a demonstração educacional em assets/js/app.js. Consulte [docs/ADDING_SCENARIOS.md](docs/ADDING_SCENARIOS.md).
+
+### Editar avaliações
+
+As questões ficam em assets/data/evaluations.js. Tipos disponíveis: choice, number, likert e open. Questões corrigíveis têm a propriedade answer; concept alimenta o painel.
+
+### Adicionar idioma
+
+Adicione o código em CriptoI18n.supported, crie o dicionário correspondente em assets/js/i18n.js e traduza os campos localizados das avaliações. Fórmulas e identificadores matemáticos devem permanecer invariantes.
+
+## Dados, importação e privacidade
+
+Sessões estruturadas usam IndexedDB; preferências simples usam localStorage. O aplicativo não usa cookies de rastreamento, analytics nem transmissão externa.
+
+No GitHub Pages, cada navegador possui sua própria base. Para consolidar uma turma:
+
+1. cada estudante exporta o JSON da sessão;
+2. o instrutor abre o painel;
+3. importa um ou mais arquivos JSON;
+4. filtra e exporta o consolidado em CSV ou JSON.
+
+A limpeza de dados exige confirmação. Consulte [docs/DATA_FORMAT.md](docs/DATA_FORMAT.md) e [docs/PILOT_GUIDE.md](docs/PILOT_GUIDE.md).
+
+## Acessibilidade e responsividade
+
+A interface inclui landmarks, hierarquia de títulos, labels, foco visível, região aria-live, link para pular conteúdo, diálogos nativos, tabelas com cabeçalhos, gráfico com descrição acessível, menu móvel e áreas de toque adequadas. Há preferências opcionais de tamanho de texto, contraste, redução de movimento, fonte legível e ocultação decorativa.
+
+O CSS foi projetado para 320, 375, 425, 768, 1024, 1366 e 1920 px, além de zoom de 200%. Tabelas e consoles têm rolagem interna quando necessário. Consulte [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md).
+
+## Compatibilidade
+
+Compatível com versões modernas de Firefox, Chromium/Chrome, Edge e Safari que ofereçam JavaScript ES2017, IndexedDB e dialog. Se IndexedDB estiver indisponível, as sessões usam um fallback local; em navegadores antigos, a experiência de diálogo pode variar.
 
 ## Limitações
 
-- utiliza parâmetros pequenos para permitir cálculos manuais;
-- não representa uma curva criptográfica de uso real;
-- foi projetado para demonstração e ensino;
-- não substitui bibliotecas criptográficas auditadas;
-- não deve ser empregado em sistemas de segurança reais.
-
----
-
-## Status do projeto
-
-**Protótipo funcional.**
-
-Possíveis evoluções:
-
-- aplicação piloto com estudantes;
-- pré-teste e pós-teste;
-- registro de tempo por etapa;
-- coleta de respostas abertas;
-- novos cenários de ataque;
-- painel de resultados;
-- internacionalização da interface;
-- adaptação para acessibilidade.
-
----
+- não existe sincronização automática entre dispositivos;
+- o identificador é anônimo, mas respostas abertas podem conter dados pessoais se o participante os digitar;
+- enumeração de grupos é intencionalmente limitada a curvas pequenas;
+- os cenários não implementam criptografia de produção nem ferramentas ofensivas reais;
+- a persistência depende das políticas de armazenamento e limpeza do navegador.
 
 ## Autores
 
-- **Iago Soares Santana** — Engenharia de Computação, CEFET-MG
-- **Bernardo Vieira Rocha** — Engenharia de Computação, CEFET-MG
-- **Renan Cabral Costa Cunningham** — Engenharia de Computação, CEFET-MG
-- **Divane Aparecida de Moraes Dantas** — Universidade Federal de Minas Gerais
-- **Frederico Augusto Menezes Ribeiro** — CEFET-MG
-
----
-
-## Referências
-
-- ANTIPA, A. et al. *Validation of elliptic curve public keys*. Public Key Cryptography — PKC 2003. Berlin: Springer, 2003.
-- FUENTES-CABRERA, A. et al. *Learning mathematics with emerging methodologies: the escape room as a case study*. Mathematics, v. 8, n. 9, 1586, 2020.
-- HANKERSON, D.; MENEZES, A.; VANSTONE, S. *Guide to elliptic curve cryptography*. New York: Springer, 2004.
-- POHLIG, S. C.; HELLMAN, M. E. *An improved algorithm for computing logarithms over GF(p) and its cryptographic significance*. IEEE Transactions on Information Theory, 1978.
-
----
-
-## Como citar
-
-```text
-CRIPTOESCAPE. Protótipo demonstrativo da aplicação.
-Belo Horizonte: CEFET-MG, 2026.
-```
-
----
+- Iago Soares Santana — Engenharia de Computação, CEFET-MG
+- Bernardo Vieira Rocha — Engenharia de Computação, CEFET-MG
+- Renan Cabral Costa Cunningham — Engenharia de Computação, CEFET-MG
+- Divane Aparecida de Moraes Dantas — Universidade Federal de Minas Gerais
+- Frederico Augusto Menezes Ribeiro — CEFET-MG
 
 ## Licença
 
-Este projeto é distribuído sob a **MIT License**. Consulte o arquivo [`LICENSE`](LICENSE) para conhecer os termos de uso, cópia, modificação e distribuição.
+MIT. Consulte [LICENSE](LICENSE).
